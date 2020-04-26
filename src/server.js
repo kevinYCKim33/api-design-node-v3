@@ -1,9 +1,26 @@
+// order matters in routes written as well!
+// first guy wins!
+
 import express from 'express'
 import { json, urlencoded } from 'body-parser'
 import morgan from 'morgan'
 import cors from 'cors'
 
 export const app = express()
+const router = express.Router()
+// app vs router are very similar
+// routers cannot listen on a port...
+// different router motivation: say some parts of your app has different auth priorities
+
+// a leaf floating without it registering...
+router.get('/me', (req, res) => {
+  res.send({ me: 'hello' })
+})
+
+// mount router above to /api
+// sneaky way to nest routes
+// GET /api/me ==> {me: 'hello'}
+app.use('/api', router)
 
 app.disable('x-powered-by')
 
@@ -26,6 +43,9 @@ const log = (req, res, next) => {
   // next() move onto the next thing
 }
 
+// will probably only use exact match or params matching
+// /users; /users/:id
+
 // app.use(log) // run log before all requests
 
 // can also pass in arrays!
@@ -42,6 +62,12 @@ app.post('/data', (req, res) => {
 app.get('/', (req, res) => {
   res.send({ message: 'hello' })
 })
+
+// app.put('/data', (req, res) => {})
+
+// app.delete()
+
+// get all that CRUD going!
 
 app.post('/', (req, res) => {
   console.log(req.body)
