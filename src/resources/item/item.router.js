@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 const controller = (req, res) => {
-  res.send({ message: 'hello' })
+  res.send({ message: 'helloz' })
 }
 
 const router = Router()
