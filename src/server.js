@@ -17,6 +17,22 @@ router.get('/me', (req, res) => {
   res.send({ me: 'hello' })
 })
 
+// cats resources
+// const routes = ['get /cat', 'get /cat/:id', 'post /cat', 'put /cat/:id', 'delete /cat/:id' ]
+
+// or just write it like this!!!
+// ~ resources :cats in rails
+router
+  .route('/cat')
+  .get()
+  .post()
+
+router
+  .route('/cat/:id')
+  .get()
+  .put()
+  .delete()
+
 // mount router above to /api
 // sneaky way to nest routes
 // GET /api/me ==> {me: 'hello'}
