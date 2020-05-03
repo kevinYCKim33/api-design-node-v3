@@ -24,13 +24,49 @@ export const getOne = model => async (req, res) => {
   res.status(200).json({ data: doc }) // status can be implied, but he was too strict with tests
 }
 
-export const getMany = model => async (req, res) => {}
+export const getMany = model => async (req, res) => {
+  const docs = await model.find({ createdBy: req.user._id })
+  res.status(200).json({ data: docs }) // namespace json! good practice!! usually data is good!
+}
 
-export const createOne = model => async (req, res) => {}
+export const createOne = model => async (req, res) => {
+  const doc = await model.create({ ...req.body, createdBy: req.user._id }) // clever spread op!
+  res.status(201).json({ data: doc }) // well technically a 201
+}
 
-export const updateOne = model => async (req, res) => {}
+export const updateOne = model => async (req, res) => {
+  const doc = await model.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      createdBy: req.user._id
+    },
+    req.body, // find em, then update them
+    { new: true } // have to do this...otherwise won't get back the updated object... // odd...
+  )
 
-export const removeOne = model => async (req, res) => {}
+  if (!doc) {
+    return res.status(400).end()
+  }
+  res.status(200).json({ data: doc })
+}
+
+export const removeOne = model => async (req, res) => {
+  const doc = await model
+    .findOneAndRemove(
+      {
+        _id: req.params.id,
+        createdBy: req.user._id
+      },
+      req.body
+    )
+    .exec()
+
+  if (!doc) {
+    return res.status(400).end()
+  }
+
+  res.status(200).json({ data: doc })
+}
 
 export const crudControllers = model => ({
   removeOne: removeOne(model),
