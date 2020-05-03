@@ -6,12 +6,12 @@ const router = Router()
 // /api/item
 router
   .route('/')
-  .get(controllers.getOne)
+  .get(controllers.getOne) // not getMany??
   .post(controllers.createOne)
 
 // /api/item/:id
 router
-  .route('/:id')
+  .route('/:id') // req.params.id
   .get(controllers.getOne)
   .put(controllers.updateOne)
   .delete(controllers.removeOne)

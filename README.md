@@ -1,5 +1,54 @@
 # API design in Node.js with Express, v3
 
+The roulette:
+
+1. Starts at `index.js`
+   just runs start() from the `server.js`
+
+2. `server.js`
+
+`app = express()`
+
+then mount bunch of middleware like cors() json()
+
+then bunch of mounting points like `/api/item`, itemRouter
+
+start() just connects to db() and listens in on a port
+
+3. `item.router.js`
+
+just a bunch of very Rails-y convention here
+
+if users hit get, post on / fire getMany and createOne
+
+if users hit get, patch, delete on /:id fire getOne, updateOne, removeOne
+
+from the controllers
+
+4. `item.controllers.js`
+
+connect crudControllers -- a very generic crud factory
+
+with Item from item.model
+
+5. `crud.js`
+
+where code resembling actual nitty gritty express stuff shows up...
+
+like req, and res...
+
+pull from model with model.findOne() or whatever method...
+
+if none found, throw a 404, if found, just send them back some json with a data namespace
+
+6. `item.models.js`
+
+at the base of the DB level; sort of like ActiveRecord but with mongoose
+
+belongs_to is handled by type: mongoose.SchemaTypes.ObjectId, and ref: 'user'
+
+can enforce some other validations like itemSchema.index({ list: 1, name: 1}, {unique: true}) meaning don't have repeat items by name on a particular list
+
 > Scott Moss & Frontend Masters
 
 - [Resources](#resources)

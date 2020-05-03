@@ -1,4 +1,6 @@
 /*
+crud.js super generic CRUD factory that takes in some generic model and does CRUDdy things with it
+
 C - models.create(), new model()
 
 R - model.find(), model.findOne(), model.findById()
